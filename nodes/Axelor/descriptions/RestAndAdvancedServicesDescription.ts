@@ -2,7 +2,7 @@ import { INodeProperties } from 'n8n-workflow';
 
 export const restAndAdvancedServicesOperations: INodeProperties[] = [
 	// ------------------------
-	//      FIRST STEP
+	//      Rest And Advanced Services
 	// ------------------------
 
 	{
@@ -88,41 +88,23 @@ export const restAndAdvancedServicesOperations: INodeProperties[] = [
 				displayName: 'Domain URL',
 				name: 'domainURL',
 				type: 'string',
-				hint: 'Enter the domain model you want',
-				validation: [
-					{
-						type: 'regex',
-						properties: {
-							regex: `^com.*`,
-							errorMessage: 'Invalid Domain should start by com.axelor...',
-						},
-					},
-				],
+				hint: 'Enter the domain model you want - Should start by com.axelor...',
 			},
 			{
 				displayName: 'Domain List',
-				name: 'domainlist',
+				name: 'list',
 				type: 'list',
 				typeOptions: {
 					searchListMethod: 'searchDomain',
-					searchable: true,
-					searchFilterRequired: true,
+					searchable: false,
+					searchFilterRequired: false
 				},
 			},
 		],
 		displayOptions: {
 			show: {
 				resource: ['restAndAdvancedServices'],
-				operation: [
-					'getAll',
-					'getId',
-					'putOne',
-					'postId',
-					'deleteId',
-					'postfetch',
-					'deleteAll',
-					'postSearch',
-				],
+				operation: ['getAll','getId','putOne','postId','deleteId','postfetch','deleteAll','postSearch'],
 			},
 		},
 	},
@@ -144,7 +126,7 @@ export const restAndAdvancedServicesOperations: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['restAndAdvancedServices'],
-				operation: ['getId', 'postId', 'deleteId', 'postfetch', 'getFileId', 'getListAttId'],
+				operation: ['getId','postId','deleteId','postfetch','getFileId','getListAttId'],
 			},
 		},
 	},
@@ -179,7 +161,7 @@ export const restAndAdvancedServicesOperations: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['restAndAdvancedServices'],
-				operation: ['putOne', 'postId', 'postfetch', 'deleteAll', 'postSearch', 'actionService'],
+				operation: ['putOne','postId','postfetch','deleteAll','postSearch','actionService'],
 			},
 		},
 	},

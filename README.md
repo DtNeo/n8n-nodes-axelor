@@ -32,8 +32,12 @@ Warning, this section has not been tested.
 Upload file can't be functional
 
 ## Thread of Axelor forum
-https://forum.axelor.com/t/thread-n8n-io-for-axelor-all-we-can-do/52194
+https://forum.axelor.com/t/thread-n8n-io-for-axelor-all-we-can-do/5219
 
 ## License
 
 [MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+
+## Release 1.1
+- method searchDomain works
+- fix documentServices interface - show options

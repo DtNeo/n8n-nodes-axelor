@@ -5,6 +5,7 @@ import {
 import {
     INodeExecutionData,
     INodeType,
+    INodeTypeBaseDescription,
     INodeTypeDescription,
     IDataObject,
     ILoadOptionsFunctions,
@@ -21,75 +22,74 @@ import {
     documentServicesOperations
 } from './descriptions';
 
-interface ModelsDomain {
-    value: string;
-}
-
 export class Axelor implements INodeType {
-    description: INodeTypeDescription = {
-        displayName: 'Axelor',
-        name: 'Axelor',
-        icon: 'file:Axelor.svg',
-        group: ['transform'],
-        version: 1,
-        subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
-        description: 'Consume Axelor API',
-        defaults: {
-            name: 'Axelor',
-        },
-        inputs: ['main'],
-        outputs: ['main'],
-        credentials: [
-            {
-                name: 'axelorApi',
-                required: true,
-            }
-        ],
-        properties: [
-            {
-                displayName: 'Resource',
-                name: 'resource',
-                type: 'options',
-                noDataExpression: true,
-                options: [
-                    {
-                        name: 'Meta Service',
-                        value: 'metaServices',
-                    },
-                    {
-                        name: 'REST & Advances Service',
-                        value: 'restAndAdvancedServices',
-                    },
-                    {
-                        name: 'Document Service',
-                        value: 'documentService',
-                    },
-                ],
-                default: 'restAndAdvancedServices',
-                required: true
-            },
-                ...metaServicesOperations,
-                ...restAndAdvancedServicesOperations,
-                ...documentServicesOperations
-        ],
-    };
+    description: INodeTypeDescription;
 
-// This method doesn't work.
+    constructor(baseDescription: INodeTypeBaseDescription) {
+        this.description = {
+                ...baseDescription,
+            displayName: 'Axelor',
+            name: 'Axelor',
+            icon: 'file:Axelor.svg',
+            group: ['transform'],
+            version: 1.1,
+            subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
+            description: 'Consume Axelor API',
+            defaults: {
+                name: 'Axelor',
+            },
+            inputs: ['main'],
+            outputs: ['main'],
+            credentials: [
+                {
+                    name: 'axelorApi',
+                    required: true,
+                }
+            ],
+            properties: [
+                {
+                    displayName: 'Resource',
+                    name: 'resource',
+                    type: 'options',
+                    noDataExpression: true,
+                    options: [
+                        {
+                            name: 'Meta Service',
+                            value: 'metaServices',
+                        },
+                        {
+                            name: 'REST & Advances Service',
+                            value: 'restAndAdvancedServices',
+                        },
+                        {
+                            name: 'Document Service',
+                            value: 'documentServices',
+                        },
+                    ],
+                    default: 'metaServices',
+                    required: true
+                },
+                    ...metaServicesOperations,
+                    ...restAndAdvancedServicesOperations,
+                    ...documentServicesOperations
+            ],
+        };
+    }
+
     methods = {
         listSearch: {
-            async searchDomain(
-                this: ILoadOptionsFunctions): Promise<INodeListSearchResult> {
+            async searchDomain(this: ILoadOptionsFunctions): Promise<INodeListSearchResult> {
                 const endpoint = `/ws/meta/models`;
-                const body: IDataObject = {};
-                const searchResults = await genericRequest.call(this, 'GET', endpoint, body);
-                return {
-                    results: searchResults.data.map((a: ModelsDomain) => ({
-                        value: a.value
+                const searchResults = await genericRequest.call(this, 'GET', endpoint);
+                return { results: searchResults.data.map((domainName: string) => ({
+                    name: domainName,
+                    value: domainName
                     }))
                 };
             },
         },
     };
+
 
 async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 
@@ -104,16 +104,14 @@ async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         if (resource === 'metaServices') {
             if (operation === 'getModels') {
                 const endpoint = `/ws/meta/models`;
-                const body: IDataObject = {};
-                responseData = await genericRequest.call(this, 'GET', endpoint, body);
+                responseData = await genericRequest.call(this, 'GET', endpoint);
             }
         }
         if (resource === 'metaServices') {
             if (operation === 'getModelsProperties') {
             const domain = this.getNodeParameter('domain', 0, undefined, {extractValue: true}) as string;
                 const endpoint = `/ws/meta/fields/${domain}`;
-                const body: IDataObject = {};
-                responseData = await genericRequest.call(this, 'GET', endpoint, body);
+                responseData = await genericRequest.call(this, 'GET', endpoint);
             }
         }
 
@@ -125,8 +123,7 @@ async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
                 const domain = this.getNodeParameter('domain', 0, undefined, {extractValue: true}) as string;
                 const query = this.getNodeParameter('query', 0) as string;
                 const endpoint = `/ws/rest/${domain}${query}`;
-                const body: IDataObject = {};
-                responseData = await genericRequest.call(this, 'GET', endpoint, body);
+                responseData = await genericRequest.call(this, 'GET', endpoint);
             }
         }
 
@@ -135,8 +132,7 @@ async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
                 const domain = this.getNodeParameter('domain', 0, undefined, {extractValue: true}) as string;
                 const id = this.getNodeParameter('id', 0) as string;
                 const endpoint = `/ws/rest/${domain}/${id}`;
-                const body: IDataObject = {};
-                responseData = await genericRequest.call(this, 'GET', endpoint, body);
+                responseData = await genericRequest.call(this, 'GET', endpoint);
             }
         }
 
@@ -166,8 +162,7 @@ async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
                 const domain = this.getNodeParameter('domain', 0, undefined, {extractValue: true}) as string;
                 const id = this.getNodeParameter('id', 0) as string;
                 const endpoint = `/ws/rest/${domain}/${id}`;
-                const body: IDataObject = {};
-                responseData = await genericRequest.call(this, 'DELETE', endpoint, body);
+                responseData = await genericRequest.call(this, 'DELETE', endpoint);
             }
         }
 

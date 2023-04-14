@@ -5,7 +5,7 @@ import {
 export const metaServicesOperations: INodeProperties[] = [
 
 // ------------------------
-//      FIRST STEP
+//      Meta Services
 // ------------------------
 
 	{
@@ -51,27 +51,18 @@ export const metaServicesOperations: INodeProperties[] = [
 				displayName: 'Domain URL',
 				name: 'domainURL',
 				type: 'string',
-				hint: 'Enter the domain model you want',
-				validation: [
-					{
-						type: 'regex',
-							properties: {
-								regex: `^com.*`,
-								errorMessage: 'Invalid Domain should start by com.axelor...'
-							},	
-					}
-				],
+				hint: 'Enter the domain model you want - Should start by com.axelor...',
 			},
 			{
 				displayName: 'Domain List',
-				name: 'domainlist',
+				name: 'list',
 				type: 'list',
 				typeOptions: {
 					searchListMethod: 'searchDomain',
-					searchable: true,
+					searchable: false,
 					searchFilterRequired: false
-				}
-			}
+				},
+			},
 		],
 		displayOptions: {
 			show: {

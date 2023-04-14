@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-axelor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Axelor is a hybrid Open Source platform that combines a Low-code BPM with more than thirty business applications such as ERP, CRM, Sales Management, HR, Project Management, Stock Management, Accounting, Manufacturing, and the list goes on.",
   "keywords": [
     "n8n-community-node-package"

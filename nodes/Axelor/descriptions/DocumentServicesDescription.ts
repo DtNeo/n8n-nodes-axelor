@@ -1,8 +1,10 @@
-import { INodeProperties } from 'n8n-workflow';
+import {
+	INodeProperties
+} from 'n8n-workflow';
 
 export const documentServicesOperations: INodeProperties[] = [
 	// ------------------------
-	//      FIRST STEP
+	//      Document Services
 	// ------------------------
 
 	{
@@ -85,25 +87,16 @@ export const documentServicesOperations: INodeProperties[] = [
 				displayName: 'Domain URL',
 				name: 'domainURL',
 				type: 'string',
-				hint: 'Enter the domain model you want',
-				validation: [
-					{
-						type: 'regex',
-						properties: {
-							regex: `^com.*`,
-							errorMessage: 'Invalid Domain should start by com.axelor...',
-						},
-					},
-				],
+				hint: 'Enter the domain model you want - Should start by com.axelor...',
 			},
 			{
 				displayName: 'Domain List',
-				name: 'domainlist',
+				name: 'list',
 				type: 'list',
 				typeOptions: {
 					searchListMethod: 'searchDomain',
-					searchable: true,
-					searchFilterRequired: false,
+					searchable: false,
+					searchFilterRequired: false
 				},
 			},
 		],
@@ -166,19 +159,7 @@ export const documentServicesOperations: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['documentServices'],
-				operation: [
-					'putOne',
-					'postId',
-					'postfetch',
-					'deleteAll',
-					'postSearch',
-					'actionService',
-					'getFiles',
-					'getFileId',
-					'postFiles',
-					'getListAttId',
-					'putAtt',
-				],
+				operation: ['putOne','postId','postfetch','deleteAll','postSearch','actionService','getFiles','getFileId','postFiles','getListAttId','putAtt']
 			},
 		},
 	},
